@@ -7,3 +7,6 @@ venv/
 
 # Project Data
 data/
+
+# Scripts
+verify_setup.py
