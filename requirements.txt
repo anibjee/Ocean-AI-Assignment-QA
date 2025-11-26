@@ -1,6 +1,8 @@
 altair==5.5.0
 fastapi>=0.109.0
 python-multipart>=0.0.9
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
 annotated-types==0.7.0
 anyio==4.9.0
 argon2-cffi==25.1.0
