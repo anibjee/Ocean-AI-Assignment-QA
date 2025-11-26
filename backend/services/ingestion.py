@@ -2,8 +2,7 @@ import os
 from typing import List
 from langchain_community.document_loaders import TextLoader, UnstructuredMarkdownLoader, BSHTMLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+# Moved heavy imports inside methods
 from backend.core.config import settings
 import shutil
 
@@ -18,6 +17,7 @@ class IngestionService:
     @property
     def embeddings(self):
         if self._embeddings is None:
+            from langchain_huggingface import HuggingFaceEmbeddings
             self._embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         return self._embeddings
 
@@ -58,7 +58,7 @@ class IngestionService:
         chunks = text_splitter.split_documents(documents)
 
         # Store in Chroma
-        # Note: Chroma automatically persists if persist_directory is set
+        from langchain_chroma import Chroma
         vectorstore = Chroma(
             persist_directory=self.persist_directory,
             embedding_function=self.embeddings

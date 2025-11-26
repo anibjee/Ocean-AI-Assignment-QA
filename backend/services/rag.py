@@ -1,6 +1,5 @@
 from langchain_groq import ChatGroq
-from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+# Moved heavy imports inside methods
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from backend.core.config import settings
@@ -20,11 +19,13 @@ class RAGService:
     @property
     def embeddings(self):
         if self._embeddings is None:
+            from langchain_huggingface import HuggingFaceEmbeddings
             self._embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         return self._embeddings
 
     def generate_test_cases(self, feature_request: str) -> TestPlan:
         # 1. Retrieve context
+        from langchain_chroma import Chroma
         vectorstore = Chroma(
             persist_directory=self.persist_directory,
             embedding_function=self.embeddings
