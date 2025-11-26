@@ -10,3 +10,6 @@ data/
 
 # Scripts
 verify_setup.py
+
+# Streamlit secrets
+.streamlit/secrets.toml
