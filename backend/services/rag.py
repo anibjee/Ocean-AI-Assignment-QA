@@ -1,4 +1,3 @@
-from langchain_groq import ChatGroq
 # Moved heavy imports inside methods
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
@@ -9,12 +8,19 @@ import json
 class RAGService:
     def __init__(self):
         self._embeddings = None
+        self._llm = None
         self.persist_directory = settings.CHROMA_PERSIST_DIRECTORY
-        self.llm = ChatGroq(
-            temperature=0,
-            model_name="llama-3.3-70b-versatile",
-            api_key=settings.GROQ_API_KEY
-        )
+
+    @property
+    def llm(self):
+        if self._llm is None:
+            from langchain_groq import ChatGroq
+            self._llm = ChatGroq(
+                temperature=0,
+                model_name="llama-3.3-70b-versatile",
+                api_key=settings.GROQ_API_KEY
+            )
+        return self._llm
 
     @property
     def embeddings(self):

@@ -1,4 +1,3 @@
-from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from backend.core.config import settings
@@ -7,11 +6,18 @@ import os
 
 class ScriptGenService:
     def __init__(self):
-        self.llm = ChatGroq(
-            temperature=0,
-            model_name="llama-3.3-70b-versatile",
-            api_key=settings.GROQ_API_KEY
-        )
+        self._llm = None
+
+    @property
+    def llm(self):
+        if self._llm is None:
+            from langchain_groq import ChatGroq
+            self._llm = ChatGroq(
+                temperature=0,
+                model_name="llama-3.3-70b-versatile",
+                api_key=settings.GROQ_API_KEY
+            )
+        return self._llm
 
     def generate_script(self, test_case: TestCase) -> str:
         # 1. Load HTML content
