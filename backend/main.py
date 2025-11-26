@@ -20,3 +20,10 @@ app.include_router(endpoints.router, prefix=settings.API_V1_STR)
 @app.get("/")
 def read_root():
     return {"message": "Autonomous QA Agent API is running"}
+
+@app.on_event("startup")
+async def startup_event():
+    import os
+    print(f"INFO:    Starting up...")
+    print(f"INFO:    PORT env var: {os.getenv('PORT')}")
+    print(f"INFO:    GROQ_API_KEY present: {bool(os.getenv('GROQ_API_KEY'))}")
