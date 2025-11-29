@@ -97,8 +97,6 @@ jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.15
 kiwisolver==1.4.9
 kubernetes==34.1.0
-langchain-chroma==1.0.0
-langchain-core==1.1.0
 langsmith==0.4.47
 llvmlite==0.44.0
 markdown-it-py==3.0.0
@@ -147,8 +145,6 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pybase64==1.4.2
 pycparser==2.22
-pydantic==2.12.4
-pydantic_core==2.41.5
 pydeck==0.9.1
 Pygments==2.19.2
 pyparsing==3.2.3
