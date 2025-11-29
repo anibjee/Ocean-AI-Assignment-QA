@@ -64,8 +64,7 @@ After generating a script (e.g., `test_discount.py`) from the UI:
     *Note: Ensure you have the `assets/checkout.html` file available locally as the script will try to open it.*
 
 ## Deployment
-
-This guide explains how to deploy the **Backend on Render** and the **Frontend on Streamlit Community Cloud**. This is the simplest "no-Docker" approach.
+This guide explains how to deploy the **Backend on Render** and the **Frontend on Streamlit Community Cloud**.
 
 ### Prerequisites
 1.  A [GitHub](https://github.com) account.
@@ -80,18 +79,8 @@ You will connect the **same GitHub repository** to both Render (Backend) and Str
 *   This is a standard "Monorepo" setup and works perfectly.
 
 ### Step 1: Push Code to GitHub
-1.  Initialize a git repository (if not already done):
-    ```bash
-    git init
-    git add .
-    git commit -m "Ready for deployment"
-    ```
-2.  Create a new repository on GitHub.
-3.  Push your code:
-    ```bash
-    git remote add origin <your-repo-url>
-    git push -u origin main
-    ```
+1.  Initialize a git repository (if not already done).
+2.  Push your code to a new GitHub repository.
 
 ### Step 2: Deploy Backend on Render
 1.  Log in to [Render](https://dashboard.render.com/).
@@ -102,9 +91,10 @@ You will connect the **same GitHub repository** to both Render (Backend) and Str
     *   **Runtime**: `Python 3`
     *   **Build Command**: `pip install -r requirements.txt`
     *   **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+    *   **Root Directory**: (Leave Blank)
 5.  **Environment Variables** (Advanced):
     *   Add `GROQ_API_KEY`: Paste your key.
-    *   Add `PYTHON_VERSION`: `3.9.0` (optional, but good for stability).
+    *   Add `PYTHON_VERSION`: `3.9.0` (optional).
 6.  Click **Create Web Service**.
 7.  **Copy the URL**: Once deployed, copy the URL (e.g., `https://qa-agent-backend.onrender.com`).
 
@@ -125,7 +115,3 @@ You will connect the **same GitHub repository** to both Render (Backend) and Str
 1.  Open your Streamlit App URL.
 2.  Go to **Knowledge Base** and try uploading files.
 3.  If it works, your Frontend is successfully talking to your Backend on Render!
-
-### Troubleshooting
-*   **Backend 502/503**: Check Render logs. It might be installing dependencies.
-*   **Frontend Connection Error**: Ensure the `API_URL` secret in Streamlit Cloud is correct and includes `/api/v1`.

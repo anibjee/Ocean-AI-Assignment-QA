@@ -2,24 +2,18 @@ import os
 from typing import List
 from langchain_community.document_loaders import TextLoader, UnstructuredMarkdownLoader, BSHTMLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-# Moved heavy imports inside methods
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
 from backend.core.config import settings
 import shutil
 
 class IngestionService:
     def __init__(self):
-        self._embeddings = None
+        self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         self.persist_directory = settings.CHROMA_PERSIST_DIRECTORY
         
         # Ensure upload directory exists
         os.makedirs(settings.UPLOAD_DIRECTORY, exist_ok=True)
-
-    @property
-    def embeddings(self):
-        if self._embeddings is None:
-            from langchain_huggingface import HuggingFaceEmbeddings
-            self._embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        return self._embeddings
 
     def save_file(self, file, filename: str) -> str:
         file_path = os.path.join(settings.UPLOAD_DIRECTORY, filename)
@@ -58,7 +52,7 @@ class IngestionService:
         chunks = text_splitter.split_documents(documents)
 
         # Store in Chroma
-        from langchain_chroma import Chroma
+        # Note: Chroma automatically persists if persist_directory is set
         vectorstore = Chroma(
             persist_directory=self.persist_directory,
             embedding_function=self.embeddings

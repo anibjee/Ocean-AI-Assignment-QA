@@ -1,4 +1,6 @@
-# Moved heavy imports inside methods
+from langchain_groq import ChatGroq
+from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from backend.core.config import settings
@@ -7,31 +9,16 @@ import json
 
 class RAGService:
     def __init__(self):
-        self._embeddings = None
-        self._llm = None
+        self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         self.persist_directory = settings.CHROMA_PERSIST_DIRECTORY
-
-    @property
-    def llm(self):
-        if self._llm is None:
-            from langchain_groq import ChatGroq
-            self._llm = ChatGroq(
-                temperature=0,
-                model_name="llama-3.3-70b-versatile",
-                api_key=settings.GROQ_API_KEY
-            )
-        return self._llm
-
-    @property
-    def embeddings(self):
-        if self._embeddings is None:
-            from langchain_huggingface import HuggingFaceEmbeddings
-            self._embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        return self._embeddings
+        self.llm = ChatGroq(
+            temperature=0,
+            model_name="llama-3.3-70b-versatile",
+            api_key=settings.GROQ_API_KEY
+        )
 
     def generate_test_cases(self, feature_request: str) -> TestPlan:
         # 1. Retrieve context
-        from langchain_chroma import Chroma
         vectorstore = Chroma(
             persist_directory=self.persist_directory,
             embedding_function=self.embeddings

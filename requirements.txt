@@ -1,15 +1,4 @@
 altair==5.5.0
-fastapi>=0.109.0
-python-multipart>=0.0.9
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
-langchain>=0.1.0
-langchain-community>=0.0.10
-langchain-core>=0.1.10
-langchain-text-splitters>=0.0.1
-langchain-huggingface>=0.0.1
-langchain-chroma>=0.1.0
-langchain-groq>=0.0.1
 annotated-types==0.7.0
 anyio==4.9.0
 argon2-cffi==25.1.0
@@ -97,6 +86,8 @@ jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.15
 kiwisolver==1.4.9
 kubernetes==34.1.0
+langchain-chroma==1.0.0
+langchain-core==1.1.0
 langsmith==0.4.47
 llvmlite==0.44.0
 markdown-it-py==3.0.0
@@ -145,6 +136,8 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pybase64==1.4.2
 pycparser==2.22
+pydantic==2.12.4
+pydantic_core==2.41.5
 pydeck==0.9.1
 Pygments==2.19.2
 pyparsing==3.2.3
