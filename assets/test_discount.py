@@ -11,34 +11,38 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 # Open the HTML file
 # Update the URL to the path of your local HTML file
-url = "file:///C:/Users/Lenovo/Downloads/assignment%20for%20qa/assets/checkout.html"
-driver.get(url)
+driver.get("file:///C:/Users/Lenovo/Documents/New%20folder/Ocean-AI-Assignment-QA/assets/checkout.html")
 
-# Enter valid discount code
+# Wait for the discount code input field to be visible
 discount_code_input = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "discount-code"))
+    EC.visibility_of_element_located((By.ID, "discount-code"))
 )
+
+# Enter the discount code
 discount_code_input.send_keys("SAVE15")
 
-# Apply discount
+# Click the apply discount button
 apply_discount_button = driver.find_element(By.ID, "apply-discount")
 apply_discount_button.click()
 
-# Verify discount message
+# Wait for the discount message to be visible
 discount_message = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "discount-message"))
+    EC.visibility_of_element_located((By.ID, "discount-message"))
 )
+
+# Verify the discount message
 assert "15% Discount Applied!" in discount_message.text
 assert "green" in discount_message.get_attribute("style")
 
-# Verify total price
-total_price_element = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "total-price"))
-)
-expected_total = 210.80  # 248.00 * 0.85
-assert float(total_price_element.text) == round(expected_total, 2)
+# Get the total price element
+total_price_element = driver.find_element(By.ID, "total-price")
 
-# Close the browser and print the result
+# Calculate the expected total price after discount
+expected_total_price = round(248.00 * 0.85, 2)
+
+# Verify the total price
+assert float(total_price_element.text) == expected_total_price
+
 print("✅ Test Passed!")
 time.sleep(5)
 driver.quit()
